@@ -11,7 +11,7 @@ uniform vec3 camPos;
 void main(){
 	float gamma = 2.2f;
 	//环境光
-	float ambient = 0.5f;
+	float ambient = 1.5f;
 	vec3 amEffect = ambient*texture(texture0,fTPos).rgb;
 	//镜面反射
 	vec3 lightDir = normalize(lightPos - wPos);

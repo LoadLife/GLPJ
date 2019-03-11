@@ -2,7 +2,7 @@
 
 
 
-Camera::Camera(glm::vec3 pos, glm::vec3 target)
+Camera::Camera(glm::vec3& pos, glm::vec3& target)
 {
 	this->pos = pos;
 	this->up = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -13,7 +13,7 @@ Camera::Camera(glm::vec3 pos, glm::vec3 target)
 
 void Camera::updatePos(Direction dir) {
 
-	float speed = 0.0015f;
+	float speed = 0.0015f*10;
 	if (dir == FRONT)
 		this->pos += speed*this->front;
 	else if (dir == BACK)

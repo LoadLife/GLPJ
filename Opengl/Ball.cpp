@@ -2,7 +2,7 @@
 
 
 
-Ball::Ball(shader* mshader)
+Ball::Ball(shared_ptr<shader> mshader)
 {
 	this->mshader = mshader;
 	init();
@@ -44,7 +44,7 @@ void Ball::init() {
 
 	
 }
-void Ball::draw(glm::mat4 model,glm::mat4 view,glm ::mat4 projection) {
+void Ball::draw(glm::mat4& model,glm::mat4& view,glm ::mat4& projection) {
 	mshader->use();
 	mshader->setMat4("modelM", model);
 	mshader->setMat4("viewM", view);
@@ -57,5 +57,4 @@ void Ball::draw(glm::mat4 model,glm::mat4 view,glm ::mat4 projection) {
 }
 Ball::~Ball()
 {
-	delete mshader;
 }

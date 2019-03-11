@@ -3,6 +3,7 @@
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 #include <vector>
+#include <memory>
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
@@ -11,14 +12,13 @@
 #include "shader.h"
 #include "Camera.h"
 #include "Ball.h"
+#include "terrain.h"
 void processInput(GLFWwindow* window);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 using namespace std;
 //摄像机
 Camera cam(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-
 int main() {
-
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -104,7 +104,7 @@ int main() {
 	
 
 	//帧缓冲纹理渲染到屏幕四边形
-	GLfloat vertices[] = {
+	vector<GLfloat>vertices = {
 		-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 		 1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
 		 1.0f,-1.0f, 0.0f, 1.0f, 0.0f,
@@ -118,7 +118,7 @@ int main() {
 
 	glBindVertexArray(srVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, srVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(GLfloat), &vertices[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, srEBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)0);
@@ -128,15 +128,21 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	shader* sshader = new shader("../src/sr_v_shader.txt", "../src/sr_f_shader.txt");
+		
+	shared_ptr<shader> sShader = make_shared<shader>(shader("../src/sr_v_shader.txt", "../src/sr_f_shader.txt"));
+	
 	//四边形
-	shader* qShader = new shader("../src/q_v_shader.txt", "../src/q_f_shader.txt");
+	shared_ptr<shader> qShader = make_shared<shader>(shader("../src/q_v_shader.txt", "../src/q_f_shader.txt"));
 	vector<string> texturePathes = { "../src/floor.jpg" };
-	Quad* quad = new Quad(qShader, box, indices, texturePathes);
+	shared_ptr<Quad> quad(new Quad(qShader, box, indices, texturePathes));
+
 	//球
-	shader* bShader = new shader("../src/b_v_shader.txt", "../src/b_f_shader.txt");
-	Ball* mball = new Ball(bShader);
+	shared_ptr<shader> bShader = make_shared<shader>(shader("../src/b_v_shader.txt", "../src/b_f_shader.txt"));
+	shared_ptr<Ball> mball(new Ball(bShader));
+
+	//地形
+	shared_ptr<terrain> terrain(new terrain("../src/little.jpg", "../src/toby.jpg", qShader));
+
 
 	glm::mat4 model;
 	model = glm::translate(model, glm::vec3(0.0f, -0.3f, 0.0f));
@@ -145,8 +151,7 @@ int main() {
 	glm::mat4 model2;
 	model2 = glm::translate(model2, glm::vec3(0.0f, 0.6f, -0.2f));
 	model2 = glm::scale(model2, glm::vec3(0.1f, 0.1f, 0.1f));
-
-
+	glm::mat4 model3;
 	while (!glfwWindowShouldClose(window))
 	{			
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
@@ -155,10 +160,10 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	
 		glm::mat4 view = cam.getLookAt();
-		glm::mat4 projection = glm::perspective(glm::radians(50.0f), 800.0f / 600.0f, 0.01f, 100.0f);
+		glm::mat4 projection = glm::perspective(glm::radians(50.0f), 800.0f / 600.0f, 0.01f, 1000.0f);
 		mball->draw(model2,view,projection);
 		quad->draw(model,view,projection,cam.pos);
-		
+		terrain->draw(model3, view, projection, cam.pos);
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, intermediateFBO); 
 		glBlitFramebuffer(0, 0, 800, 600, 0, 0, 800, 600, GL_COLOR_BUFFER_BIT, GL_NEAREST);
@@ -167,8 +172,8 @@ int main() {
 		glDisable(GL_DEPTH_TEST);
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT); 
-		sshader->use();
-		sshader->setInt("srTexture", 0);
+		sShader->use();
+		sShader->setInt("srTexture", 0);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture2[1]);
 		glBindVertexArray(srVAO);
@@ -204,16 +209,16 @@ void processInput(GLFWwindow* window) {
 
 
 bool firstMouse = true;
-float lastX, lastY;
+float lastX,lastY;
 void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 	if (firstMouse) {
-		lastX = xpos;
-		lastY = ypos;
+		lastX = static_cast<float>(xpos);
+		lastY = static_cast<float>(ypos);
 		firstMouse = false;
 	}
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos;
-	lastX = xpos;
-	lastY = ypos;
+	float xoffset = static_cast<float>(xpos) - lastX;
+	float yoffset = lastY - static_cast<float>(ypos);
+	lastX = static_cast<float>(xpos);
+	lastY = static_cast<float>(ypos);
 	cam.updateMouse(xoffset, yoffset);
 }

@@ -10,7 +10,7 @@ class Camera
 	
 public:
 	glm::vec3 pos;
-	Camera(glm::vec3 pos,glm::vec3 target);
+	Camera(glm::vec3 &pos,glm::vec3 &target);
 	void updatePos(Direction dir);
 	void updateMouse(float xoffset,float yoffset);
 	glm::mat4 getLookAt();

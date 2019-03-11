@@ -1,0 +1,51 @@
+﻿  Camera.cpp
+LINK : warning LNK4098: 默认库“MSVCRTD”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
+LINK : warning LNK4098: 默认库“LIBCMT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
+  正在生成代码
+  2 of 885 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    9 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+Ball.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenBuffers
+Ball.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenVertexArrays
+Ball.obj : warning LNK4049: 已导入本地定义的符号 ___glewBufferData
+Ball.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindBuffer
+Ball.obj : warning LNK4049: 已导入本地定义的符号 ___glewVertexAttribPointer
+Ball.obj : warning LNK4049: 已导入本地定义的符号 ___glewBindVertexArray
+Ball.obj : warning LNK4049: 已导入本地定义的符号 ___glewEnableVertexAttribArray
+Quad.obj : warning LNK4049: 已导入本地定义的符号 ___glewGenerateMipmap
+Quad.obj : warning LNK4049: 已导入本地定义的符号 ___glewActiveTexture
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewLinkProgram
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewDeleteShader
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewUniform3f
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewGetProgramInfoLog
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewUniformMatrix4fv
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewShaderSource
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewAttachShader
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewGetUniformLocation
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewUniform1f
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewGetProgramiv
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewGetShaderInfoLog
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewUniform1i
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewCreateProgram
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewCreateShader
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewCompileShader
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewGetShaderiv
+shader.obj : warning LNK4049: 已导入本地定义的符号 ___glewUseProgram
+glfw3.lib(context.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(context.obj)”或在“D:\PJ\Opengl\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(init.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(init.obj)”或在“D:\PJ\Opengl\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(input.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(input.obj)”或在“D:\PJ\Opengl\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(monitor.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(monitor.obj)”或在“D:\PJ\Opengl\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(vulkan.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(vulkan.obj)”或在“D:\PJ\Opengl\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(window.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(window.obj)”或在“D:\PJ\Opengl\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(win32_init.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_init.obj)”或在“D:\PJ\Opengl\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(win32_joystick.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_joystick.obj)”或在“D:\PJ\Opengl\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(win32_monitor.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_monitor.obj)”或在“D:\PJ\Opengl\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(win32_time.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_time.obj)”或在“D:\PJ\Opengl\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(win32_tls.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_tls.obj)”或在“D:\PJ\Opengl\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(win32_window.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_window.obj)”或在“D:\PJ\Opengl\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(wgl_context.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(wgl_context.obj)”或在“D:\PJ\Opengl\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(egl_context.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(egl_context.obj)”或在“D:\PJ\Opengl\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glew32s.lib(glew.obj) : warning LNK4099: 未找到 PDB“vc120.pdb”(使用“glew32s.lib(glew.obj)”或在“D:\PJ\Opengl\Release\vc120.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+  Opengl.vcxproj -> D:\PJ\Opengl\Release\Opengl.exe
+  Opengl.vcxproj -> D:\PJ\Opengl\Release\Opengl.pdb (Full PDB)

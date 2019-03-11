@@ -1,7 +1,7 @@
 #include "Quad.h"
 
 
-Quad::Quad(shader* mshader, vector<vertex> vertices, vector<GLuint> indices,vector<string> texturePathes)
+Quad::Quad(shared_ptr<shader>& mshader, vector<vertex>& vertices, vector<GLuint>& indices,vector<string>& texturePathes)
 {
 	this->mshader = mshader;
 	this->vertices = vertices;
@@ -38,7 +38,7 @@ void Quad::init() {
 	stbi_set_flip_vertically_on_load(true);
 	glGenTextures(this->textures.size(), &textures[0]);
 	
-	for (int i = 0; i < this->textures.size(); i++) {
+	for (int i = 0; i < static_cast<int>(this->textures.size()); i++) {
 		unsigned char* data = stbi_load(this->texturePathes[i].c_str(), &width, &height, &nrChannels, 0);
 		glBindTexture(GL_TEXTURE_2D, this->textures[i]);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -53,23 +53,22 @@ void Quad::init() {
 		else
 			std::cout << "Fail to load texture:" << texturePathes[i];
 		stbi_image_free(data);
-		this->mshader->use();
-		this->mshader->setInt("texture" + to_string(i), i);
-		this->mshader->setVec3("lightPos",0.0f,0.6f,-0.2f);
-		this->mshader->setVec3("lightColor", 241.0f / 255.0f, 158.0f / 255.0f, 194.0f / 255.0f);
 	}
 }
 
 
-void Quad::draw(glm::mat4 model,glm::mat4 view,glm::mat4 projection,glm::vec3 camPos) {
+void Quad::draw(glm::mat4& model,glm::mat4& view,glm::mat4& projection,glm::vec3& camPos) {
 
 	this->mshader->use();
+	this->mshader->setInt("texture0", 0);
+	this->mshader->setVec3("lightPos", 0.0f, 0.6f, -0.2f);
+	this->mshader->setVec3("lightColor", 241.0f / 255.0f, 158.0f / 255.0f, 194.0f / 255.0f);
 	this->mshader->setMat4("modelM", model);
 	this->mshader->setMat4("viewM", view);
 	this->mshader->setMat4("projectionM", projection);
 	this->mshader->setVec3("camPos", camPos.x, camPos.y, camPos.z);
 
-	for (int i = 0; i < this->textures.size(); i++) {
+	for (int i = 0; i < static_cast<int>(this->textures.size()); i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, this->textures[i]);
 	}
@@ -81,5 +80,4 @@ void Quad::draw(glm::mat4 model,glm::mat4 view,glm::mat4 projection,glm::vec3 ca
 
 Quad::~Quad()
 {
-	delete this->mshader;
 }
