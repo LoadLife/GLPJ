@@ -7,18 +7,23 @@
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
+#include <map>
 #include <ft2build.h>
+#include FT_FREETYPE_H
 #include "Quad.h"
 #include "element.h"
 #include "shader.h"
 #include "Camera.h"
 #include "Ball.h"
 #include "terrain.h"
-void processInput(GLFWwindow* window);
+void ProcessInput(GLFWwindow* window);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void RenderText(shared_ptr<shader> textShader, string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color);
 using namespace std;
 //摄像机
 Camera cam(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+GLuint textVAO, textVBO;
+extern map<GLchar, Character> Characters;
 int main() {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -38,11 +43,72 @@ int main() {
 	if (glewInit() != GLEW_OK) {
 		cout << "Failed to initialize GLEW" << endl;
 		return -1;
+
 	}
+	//开启混合
+	//glEnable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//打印设备相关
 	const GLubyte* firm = glGetString(GL_VENDOR);
 	const GLubyte* identifier = glGetString(GL_RENDERER);
 	printf("Realize By %s\n", firm);
 	printf("Run On %s\n", identifier);
+	//初始化FreeType
+	FT_Library ft;
+	if (FT_Init_FreeType(&ft)) {
+		cout << "ERROR:::FREETYPE:Could not init FreeType Library" << endl;
+	}
+	FT_Face face;
+	if (FT_New_Face(ft, "../src/arial.ttf", 0, &face)) {
+		cout << "ERROR::FREETYPE:Failed to load front" << endl;
+	}
+	//设置字体大小
+	FT_Set_Pixel_Sizes(face, 0, 48);
+	
+	if(FT_Load_Char(face,'X',FT_LOAD_RENDER))
+		std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
+	
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);//禁用字节对齐限制
+	for (GLubyte c = 0; c < 128; c++) {
+		if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
+			std::cout << "ERROR::FREETYPE:Failed to load Glyph" << std::endl;
+			continue;
+		}
+		GLuint texture;
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, face->glyph->bitmap.width, face->glyph->bitmap.rows, 0, GL_RED, GL_UNSIGNED_BYTE, face->glyph->bitmap.buffer);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		Character character = {
+			texture,
+			glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
+			glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
+			static_cast<GLuint>(face->glyph->advance.x)
+		};
+		Characters.insert(std::pair<GLchar, Character>(c, character));
+	}
+	FT_Done_Face(face);
+	FT_Done_FreeType(ft);
+
+	
+	glGenVertexArrays(1, &textVAO);
+	glGenBuffers(1, &textVBO);
+	glBindVertexArray(textVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, textVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, nullptr, GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0,4,GL_FLOAT,GL_FALSE,4*sizeof(GLfloat),(void*)0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+	
+
+	
 
 	glfwSetCursorPosCallback(window, mouse_callback);//鼠标回调函数
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);//设置光标不可见
@@ -129,9 +195,8 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		
+	//屏幕
 	shared_ptr<shader> sShader = make_shared<shader>(shader("../src/sr_v_shader.txt", "../src/sr_f_shader.txt"));
-	
 	//四边形
 	shared_ptr<shader> qShader = make_shared<shader>(shader("../src/q_v_shader.txt", "../src/q_f_shader.txt"));
 	vector<string> texturePathes = { "../src/floor.jpg" };
@@ -143,7 +208,8 @@ int main() {
 
 	//地形
 	shared_ptr<terrain> terrain(new terrain("../src/little.jpg", "../src/toby.jpg", qShader));
-
+	//文本
+	shared_ptr<shader> textShader = make_shared<shader>(shader("../src/t_v_shader.txt", "../src/t_f_shader.txt"));
 
 	glm::mat4 model;
 	model = glm::translate(model, glm::vec3(0.0f, -0.3f, 0.0f));
@@ -159,12 +225,18 @@ int main() {
 		glEnable(GL_DEPTH_TEST);
 		glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	
 		glm::mat4 view = cam.getLookAt();
 		glm::mat4 projection = glm::perspective(glm::radians(50.0f), 800.0f / 600.0f, 0.01f, 1000.0f);
 		mball->draw(model2,view,projection);
 		quad->draw(model,view,projection,cam.pos);
 		terrain->draw(model3, view, projection, cam.pos);
+
+		string x = to_string(cam.pos.x).substr(0, 4);
+		string y = to_string(cam.pos.y).substr(0, 4);
+		string z = to_string(cam.pos.z).substr(0, 4);
+		string pos = x + " " + y + " " + z;
+		RenderText(textShader, pos, 600.0f, 480.0f, 0.4f, glm::vec3(0.5, 0.8f, 0.2f));
+		
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, intermediateFBO); 
 		glBlitFramebuffer(0, 0, 800, 600, 0, 0, 800, 600, GL_COLOR_BUFFER_BIT, GL_NEAREST);
@@ -181,7 +253,7 @@ int main() {
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
-		processInput(window);
+		ProcessInput(window);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -193,7 +265,7 @@ int main() {
 
 
 
-void processInput(GLFWwindow* window) {
+void ProcessInput(GLFWwindow* window) {
 
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
@@ -222,4 +294,43 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 	lastX = static_cast<float>(xpos);
 	lastY = static_cast<float>(ypos);
 	cam.updateMouse(xoffset, yoffset);
+}
+
+void RenderText(shared_ptr<shader> textShader, string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color) {
+
+	textShader->use();
+	textShader->setVec3("textColor", color.x, color.y, color.z);
+	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(800), 0.0f, static_cast<GLfloat>(600));
+	textShader->setMat4("projectionM", projection);
+	glActiveTexture(GL_TEXTURE0);
+	textShader->setInt("text", 0);
+	glBindVertexArray(textVAO);
+
+	string::const_iterator c;
+	for (c = text.begin(); c != text.end(); c++) {
+		Character ch = Characters[*c];
+
+		GLfloat xpos = x + ch.Bearing.x*scale;
+		GLfloat ypos = y - (ch.Size.y - ch.Bearing.y);
+		GLfloat w = ch.Size.x*scale;
+		GLfloat h = ch.Size.y*scale;
+		GLfloat vertices[6][4] = {
+			{xpos  ,ypos+h,0.0f,0.0f},
+			{xpos  ,ypos  ,0.0f,1.0f},
+			{xpos+w,ypos  ,1.0f,1.0f},
+			{xpos  ,ypos+h,0.0f,0.0f},
+			{xpos+w,ypos  ,1.0f,1.0f},
+			{xpos+w,ypos+h,1.0f,0.0f}
+		};
+		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
+		glBindBuffer(GL_ARRAY_BUFFER, textVBO);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		x += (ch.Advance >> 6)*scale;
+	}
+	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 }

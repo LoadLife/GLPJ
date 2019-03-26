@@ -77,7 +77,6 @@ void terrain::init(const char* MapPath, const char* TexturePath) {
 		std::cout << "Fail to load texture" << endl;
 	
 	stbi_image_free(mData);
-	cout << vertices.size();
 
 }
 
