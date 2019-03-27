@@ -39,6 +39,9 @@
     <ClCompile Include="element.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="TextRender.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shader.h">
@@ -60,6 +63,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="terrain.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRender.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
