@@ -9,11 +9,12 @@
 #include "shader.h"
 #include "stb_image.h"
 using namespace std;
+
 class terrain
 {
 public:
 	terrain(const char* MapPath,const char* TexturePath,shared_ptr<shader>& shader);
-	void draw(glm::mat4& model, glm::mat4& view, glm::mat4& projection, glm::vec3& camPos);
+	void draw(glm::mat4& model, glm::vec3& camPos);
 	~terrain();
 	
 private:

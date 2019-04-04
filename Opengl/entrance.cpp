@@ -15,6 +15,7 @@
 #include "Ball.h"
 #include "terrain.h"
 #include "TextRender.h"
+
 void ProcessInput(GLFWwindow* window);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 using namespace std;
@@ -60,11 +61,11 @@ int main() {
 	vector<GLuint> indices = { 0,1,2,
 							   2,3,0 };
 	//帧缓冲相关
-	unsigned int framebuffer;
+	GLuint framebuffer;
 	glGenFramebuffers(1, &framebuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 	    //纹理附件
-	unsigned int texture[2];
+	GLuint texture[2];
 	glGenTextures(2, texture);
 	for (GLuint i = 0; i < 2; i++) {
 		
@@ -74,7 +75,7 @@ int main() {
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0+i, GL_TEXTURE_2D_MULTISAMPLE, texture[i], 0);
 	}
 	    //深度缓冲附件
-	unsigned int rbo;
+	GLuint rbo;
 	glGenRenderbuffers(1, &rbo);
 	glBindRenderbuffer(GL_RENDERBUFFER, rbo);
 	glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH24_STENCIL8, 800, 600);
@@ -136,7 +137,16 @@ int main() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 
-	//屏幕
+	//uniform缓冲
+	GLuint ubo;
+	glGenBuffers(1, &ubo);
+	glBindBuffer(GL_UNIFORM_BUFFER, ubo);
+	glBufferData(GL_UNIFORM_BUFFER, 128, nullptr, GL_STATIC_DRAW);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+		//绑定到0点
+	glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo);
+	
+	//屏幕四边形
 	shared_ptr<shader> sShader = make_shared<shader>(shader("../src/sr_v_shader.txt", "../src/sr_f_shader.txt"));
 	//四边形
 	shared_ptr<shader> qShader = make_shared<shader>(shader("../src/q_v_shader.txt", "../src/q_f_shader.txt"));
@@ -159,6 +169,7 @@ int main() {
 	model2 = glm::translate(model2, glm::vec3(0.0f, 0.6f, -0.2f));
 	model2 = glm::scale(model2, glm::vec3(0.1f, 0.1f, 0.1f));
 	glm::mat4 model3;
+
 	while (!glfwWindowShouldClose(window))
 	{			
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
@@ -167,15 +178,21 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 		glm::mat4 view = cam.getLookAt();
 		glm::mat4 projection = glm::perspective(glm::radians(50.0f), 800.0f / 600.0f, 0.01f, 1000.0f);
-		mball->draw(model2,view,projection);
-		quad->draw(model,view,projection,cam.pos);
-		terrain->draw(model3, view, projection, cam.pos);
+		//更新uniform对象缓冲数据
+		glBindBuffer(GL_UNIFORM_BUFFER, ubo);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, 64, glm::value_ptr(view));
+		glBufferSubData(GL_UNIFORM_BUFFER, 64, 64, glm::value_ptr(projection));
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+		
+		mball->draw(model2);
+		quad->draw(model,cam.pos);
+		terrain->draw(model3,cam.pos);
 
 		string x = to_string(cam.pos.x).substr(0, 4);
 		string y = to_string(cam.pos.y).substr(0, 4);
 		string z = to_string(cam.pos.z).substr(0, 4);
-		string pos = x + " " + y + " " + z;
-		textRender->draw(pos, 640.0f, 550.0f, 0.3f, glm::vec3(0.5, 0.8f, 0.2f));
+		string pos ="loc : "+ x + " " + y + " " + z;
+		textRender->draw(pos, 620.0f, 550.0f, 0.3f, glm::vec3(0.5, 0.8f, 0.2f));
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, intermediateFBO); 
 		glBlitFramebuffer(0, 0, 800, 600, 0, 0, 800, 600, GL_COLOR_BUFFER_BIT, GL_NEAREST);

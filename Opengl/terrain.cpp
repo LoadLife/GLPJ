@@ -77,10 +77,13 @@ void terrain::init(const char* MapPath, const char* TexturePath) {
 		std::cout << "Fail to load texture" << endl;
 	
 	stbi_image_free(mData);
-
+	mshader->use();
+	GLuint matricesBlockIndex = glGetUniformBlockIndex(mshader->Program, "matrices");
+	glUniformBlockBinding(mshader->Program, matricesBlockIndex, 0);
+	
 }
 
-void terrain::draw(glm::mat4& model, glm::mat4& view, glm::mat4& projection, glm::vec3& camPos) 
+void terrain::draw(glm::mat4& model, glm::vec3& camPos) 
 {
 	mshader->use();
 	mshader->setVec3("lightColor", 241.0f / 255.0f*1.5f, 155.0f / 255.0f*1.5f, 194.0f / 255.0f*1.5f);
@@ -88,8 +91,6 @@ void terrain::draw(glm::mat4& model, glm::mat4& view, glm::mat4& projection, glm
 	mshader->setVec3("lightPos", 0.0f, 0.6f, -0.2f);
 
 	mshader->setMat4("modelM", model);
-	mshader->setMat4("viewM", view);
-	mshader->setMat4("projectionM", projection);
 	mshader->setVec3("camPos", camPos.x, camPos.y, camPos.z);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, this->texture);

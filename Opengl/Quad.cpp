@@ -54,18 +54,19 @@ void Quad::init() {
 			std::cout << "Fail to load texture:" << texturePathes[i];
 		stbi_image_free(data);
 	}
+	mshader->use();
+	GLuint matricesBlockIndex = glGetUniformBlockIndex(mshader->Program, "matrices");
+	glUniformBlockBinding(mshader->Program, matricesBlockIndex, 0);
 }
 
 
-void Quad::draw(glm::mat4& model,glm::mat4& view,glm::mat4& projection,glm::vec3& camPos) {
+void Quad::draw(glm::mat4& model,glm::vec3& camPos) {
 
 	this->mshader->use();
 	this->mshader->setInt("texture0", 0);
 	this->mshader->setVec3("lightPos", 0.0f, 0.6f, -0.2f);
 	this->mshader->setVec3("lightColor", 241.0f / 255.0f, 158.0f / 255.0f, 194.0f / 255.0f);
 	this->mshader->setMat4("modelM", model);
-	this->mshader->setMat4("viewM", view);
-	this->mshader->setMat4("projectionM", projection);
 	this->mshader->setVec3("camPos", camPos.x, camPos.y, camPos.z);
 
 	for (int i = 0; i < static_cast<int>(this->textures.size()); i++) {

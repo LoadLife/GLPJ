@@ -40,15 +40,17 @@ void Ball::init() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	mshader->use();
+	//绑定块索引到绑定点
+	GLuint matricesBlockIndex = glGetUniformBlockIndex(mshader->Program, "Matrices");
+	glUniformBlockBinding(mshader->Program, matricesBlockIndex, 0);
+	//设置球颜色
 	mshader->setVec3("lightColor", 241.0f / 255.0f*1.5f, 155.0f / 255.0f*1.5f, 194.0f / 255.0f*1.5f);
 
 	
 }
-void Ball::draw(glm::mat4& model,glm::mat4& view,glm ::mat4& projection) {
+void Ball::draw(glm::mat4& model) {
 	mshader->use();
 	mshader->setMat4("modelM", model);
-	mshader->setMat4("viewM", view);
-	mshader->setMat4("projectionM", projection);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());

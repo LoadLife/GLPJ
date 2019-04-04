@@ -14,7 +14,7 @@ class Ball
 public:
 	Ball(shared_ptr<shader> shader);
 	~Ball();
-	void draw(glm::mat4& model,glm::mat4& view, glm::mat4& projection);
+	void draw(glm::mat4& model);
 private: 
 	GLuint VAO;
 	shared_ptr<shader> mshader;

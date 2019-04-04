@@ -1,7 +1,4 @@
 #include "TextRender.h"
-
-
-
 extern map<GLchar, Character> Characters;
 
 TextRender::TextRender(shared_ptr<shader> shader)
@@ -37,8 +34,11 @@ void TextRender::draw(string& text, GLfloat x, GLfloat y, GLfloat scale,glm::vec
 
 		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		GLvoid* ptr = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+		memcpy(ptr, vertices, sizeof(vertices));
+		glUnmapBuffer(GL_ARRAY_BUFFER);
+		//glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+		//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		x += (ch.Advance >> 6)*scale;

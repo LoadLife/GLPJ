@@ -14,7 +14,7 @@ class Quad
 public:
 
 	Quad(shared_ptr<shader>& mshader,vector<vertex>& vertices,vector<GLuint>& indices,vector<string>& texturePathes);
-	void draw(glm::mat4& model, glm::mat4& view, glm::mat4& projection,glm::vec3& camPos);
+	void draw(glm::mat4& model,glm::vec3& camPos);
 	~Quad();
 private:
 	GLuint VAO;
