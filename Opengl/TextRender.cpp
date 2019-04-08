@@ -7,7 +7,7 @@ TextRender::TextRender(shared_ptr<shader> shader)
 	init();
 }
 
-void TextRender::draw(string& text, GLfloat x, GLfloat y, GLfloat scale,glm::vec3 color) {
+void TextRender::draw(string& text, GLfloat x, GLfloat y, GLfloat scale,glm::vec3 color) const{
 	mshader->use();
 	mshader->setVec3("textColor", color.x, color.y, color.z);
 	mshader->setMat4("projectionM", projection);

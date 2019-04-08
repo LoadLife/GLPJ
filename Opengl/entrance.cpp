@@ -112,10 +112,10 @@ int main() {
 
 	//÷°ª∫≥ÂŒ∆¿Ì‰÷»æµΩ∆¡ƒªÀƒ±ﬂ–Œ
 	vector<GLfloat>vertices = {
-		-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-		 1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-		 1.0f,-1.0f, 0.0f, 1.0f, 0.0f,
-		-1.0f,-1.0f, 0.0f, 0.0f, 0.0f
+		-1.0f, 1.0f, -1.0f, 0.0f, 1.0f,
+		 1.0f, 1.0f, -1.0f, 1.0f, 1.0f,
+		 1.0f,-1.0f, -1.0f, 1.0f, 0.0f,
+		-1.0f,-1.0f, -1.0f, 0.0f, 0.0f
 	};
 
 	GLuint srVAO, srVBO, srEBO;
@@ -165,11 +165,11 @@ int main() {
 	model = glm::translate(model, glm::vec3(0.0f, -0.3f, 0.0f));
 	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::scale(model, glm::vec3(1.8f, 1.8f, 1.8f));
+
 	glm::mat4 model2;
 	model2 = glm::translate(model2, glm::vec3(0.0f, 0.6f, -0.2f));
 	model2 = glm::scale(model2, glm::vec3(0.1f, 0.1f, 0.1f));
 	glm::mat4 model3;
-
 	while (!glfwWindowShouldClose(window))
 	{			
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);

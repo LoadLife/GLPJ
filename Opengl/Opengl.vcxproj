@@ -126,6 +126,7 @@
     <ClCompile Include="element.cpp" />
     <ClCompile Include="entrance.cpp" />
     <ClCompile Include="Quad.cpp" />
+    <ClCompile Include="SceneObj.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="terrain.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="element.h" />
     <ClInclude Include="Quad.h" />
+    <ClInclude Include="SceneObj.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="terrain.h" />

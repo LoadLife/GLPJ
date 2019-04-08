@@ -14,7 +14,7 @@ class TextRender
 public:
 	TextRender(shared_ptr<shader> shader);
 	~TextRender();
-	void draw(string& text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color);
+	void draw(string& text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color) const;
 private:
 	void init();
 	GLuint VAO;

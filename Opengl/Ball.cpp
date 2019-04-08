@@ -48,7 +48,7 @@ void Ball::init() {
 
 	
 }
-void Ball::draw(glm::mat4& model) {
+void Ball::draw(glm::mat4& model) const {
 	mshader->use();
 	mshader->setMat4("modelM", model);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

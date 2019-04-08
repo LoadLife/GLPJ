@@ -60,7 +60,7 @@ void Quad::init() {
 }
 
 
-void Quad::draw(glm::mat4& model,glm::vec3& camPos) {
+void Quad::draw(glm::mat4& model,glm::vec3& camPos) const{
 
 	this->mshader->use();
 	this->mshader->setInt("texture0", 0);

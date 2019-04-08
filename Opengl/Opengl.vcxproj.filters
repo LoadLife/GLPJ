@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="源文件\RenderScene">
+      <UniqueIdentifier>{bd948a73-1ac4-40d9-9a18-d0b659bfe771}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="entrance.cpp">
@@ -21,26 +24,29 @@
     <ClCompile Include="shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Quad.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="stb_image.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Ball.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="terrain.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="element.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="TextRender.cpp">
+    <ClCompile Include="SceneObj.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>源文件\RenderScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Quad.cpp">
+      <Filter>源文件\RenderScene</Filter>
+    </ClCompile>
+    <ClCompile Include="terrain.cpp">
+      <Filter>源文件\RenderScene</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRender.cpp">
+      <Filter>源文件\RenderScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +72,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="TextRender.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneObj.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

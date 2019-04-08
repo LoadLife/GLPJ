@@ -83,7 +83,7 @@ void terrain::init(const char* MapPath, const char* TexturePath) {
 	
 }
 
-void terrain::draw(glm::mat4& model, glm::vec3& camPos) 
+void terrain::draw(glm::mat4& model, glm::vec3& camPos)  const
 {
 	mshader->use();
 	mshader->setVec3("lightColor", 241.0f / 255.0f*1.5f, 155.0f / 255.0f*1.5f, 194.0f / 255.0f*1.5f);

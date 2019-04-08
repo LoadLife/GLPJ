@@ -14,7 +14,7 @@ class terrain
 {
 public:
 	terrain(const char* MapPath,const char* TexturePath,shared_ptr<shader>& shader);
-	void draw(glm::mat4& model, glm::vec3& camPos);
+	void draw(glm::mat4& model, glm::vec3& camPos) const;
 	~terrain();
 	
 private:
