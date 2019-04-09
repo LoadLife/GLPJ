@@ -8,15 +8,16 @@
 #include <memory>
 #include "shader.h"
 #include "element.h"
+#include "SceneObj.h"
 using namespace std;
-class TextRender
+class TextRender:public SceneObj
 {
 public:
 	TextRender(shared_ptr<shader> shader);
 	~TextRender();
 	void draw(string& text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color) const;
 private:
-	void init();
+	void init() override;
 	GLuint VAO;
 	GLuint VBO;
 	shared_ptr<shader> mshader;

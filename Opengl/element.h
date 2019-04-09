@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <map>
 
-struct  vertex
+struct vertex
 {
 	glm::vec3 pos;
 	glm::vec3 normal;

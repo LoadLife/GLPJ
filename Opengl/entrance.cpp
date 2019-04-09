@@ -15,6 +15,7 @@
 #include "Ball.h"
 #include "terrain.h"
 #include "TextRender.h"
+#include "SkyBox.h"
 
 void ProcessInput(GLFWwindow* window);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -160,7 +161,9 @@ int main() {
 	//ÎÄ±¾
 	shared_ptr<shader> textShader = make_shared<shader>(shader("../src/t_v_shader.txt", "../src/t_f_shader.txt"));
 	shared_ptr<TextRender>textRender = make_shared<TextRender>(TextRender(textShader));
-
+	//Ìì¿ÕºÐ
+	shared_ptr<shader> skyShader = make_shared<shader>(shader("../src/sky_v_shader.txt", "../src/sky_f_shader.txt"));
+	shared_ptr<SkyBox> skyBox = make_shared<SkyBox>(SkyBox(skyShader));
 	glm::mat4 model;
 	model = glm::translate(model, glm::vec3(0.0f, -0.3f, 0.0f));
 	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -183,11 +186,13 @@ int main() {
 		glBufferSubData(GL_UNIFORM_BUFFER, 0, 64, glm::value_ptr(view));
 		glBufferSubData(GL_UNIFORM_BUFFER, 64, 64, glm::value_ptr(projection));
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
-		
-		mball->draw(model2);
-		quad->draw(model,cam.pos);
-		terrain->draw(model3,cam.pos);
 
+	
+		mball->draw(model2);
+		terrain->draw(model3, cam.pos);
+		quad->draw(model,cam.pos);
+		skyBox->draw();
+	
 		string x = to_string(cam.pos.x).substr(0, 4);
 		string y = to_string(cam.pos.y).substr(0, 4);
 		string z = to_string(cam.pos.z).substr(0, 4);

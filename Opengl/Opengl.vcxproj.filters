@@ -48,6 +48,9 @@
     <ClCompile Include="TextRender.cpp">
       <Filter>源文件\RenderScene</Filter>
     </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>源文件\RenderScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shader.h">
@@ -75,6 +78,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="SceneObj.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

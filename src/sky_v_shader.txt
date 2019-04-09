@@ -1,0 +1,15 @@
+#version 330 core
+layout(location=0) in vec3 pos;
+layout(std140) uniform matrices{ 
+	mat4 viewM;
+	mat4 projectionM;
+};
+out vec3 tPos;
+
+void main(){
+	tPos=pos;
+	mat4 mViewM=mat4(mat3(viewM));
+	vec4 vertexPos=projectionM*mViewM*vec4(pos,1.0f);
+	gl_Position=vertexPos.xyww;
+	
+}

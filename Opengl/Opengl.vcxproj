@@ -128,6 +128,7 @@
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="SceneObj.cpp" />
     <ClCompile Include="shader.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="terrain.cpp" />
     <ClCompile Include="TextRender.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="Quad.h" />
     <ClInclude Include="SceneObj.h" />
     <ClInclude Include="shader.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="terrain.h" />
     <ClInclude Include="TextRender.h" />

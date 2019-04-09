@@ -3,7 +3,9 @@ class SceneObj
 {
 public:
 	SceneObj();
-	virtual void init()=0;
+	
 	~SceneObj();
+private:
+	virtual void init() = 0;
 };
 
