@@ -1,5 +1,6 @@
+/*
 #pragma once
-#include <ft2build.h>
+#include "ft2build.h"
 #include FT_FREETYPE_H
 #include <GL\glew.h>
 #include <glm\glm.hpp>
@@ -23,4 +24,4 @@ private:
 	shared_ptr<shader> mshader;
 	glm::mat4 projection;
 };
-
+*/

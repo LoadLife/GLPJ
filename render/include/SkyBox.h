@@ -6,8 +6,8 @@
 #include <vector>
 #include <memory>
 #include "SceneObj.h"
-#include "shader.h"
 #include "stb_image.h"
+#include "shader.h"
 using namespace std;
 class SkyBox:SceneObj
 {

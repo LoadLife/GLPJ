@@ -12,14 +12,14 @@ SkyBox::SkyBox(shared_ptr<shader> shader)
 
 void SkyBox::init() {
 
-	//³õÊ¼»¯Á¢·½ÌåÌùÍ¼
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
 	vector<string> imgPathes = {
-		"../src/skybox/emerald_rt.jpg",
-		"../src/skybox/emerald_lf.jpg",
-		"../src/skybox/emerald_up.jpg",
-		"../src/skybox/emerald_dn.jpg",
-		"../src/skybox/emerald_ft.jpg",
-		"../src/skybox/emerald_bk.jpg"
+		"../../../resources/skybox/emerald_rt.jpg",
+		"../../../resources/skybox/emerald_lf.jpg",
+		"../../../resources/skybox/emerald_up.jpg",
+		"../../../resources/skybox/emerald_dn.jpg",
+		"../../../resources/skybox/emerald_ft.jpg",
+		"../../../resources/skybox/emerald_bk.jpg"
 	};
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
@@ -42,7 +42,7 @@ void SkyBox::init() {
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
 	}
-	//Á¢·½Ìå
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	vector<float> vertices = {
 		-1.0f,  1.0f, -1.0f,
 		-1.0f, -1.0f, -1.0f,

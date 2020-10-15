@@ -1,4 +1,4 @@
-#include "TextRender.h"
+/*#include "TextRender.h"
 extern map<GLchar, Character> Characters;
 
 TextRender::TextRender(shared_ptr<shader> shader)
@@ -103,3 +103,4 @@ void TextRender::init() {
 TextRender::~TextRender()
 {
 }
+*/

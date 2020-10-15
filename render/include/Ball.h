@@ -7,7 +7,6 @@
 #include <memory>
 #include "element.h"
 #include "shader.h"
-#include "stb_image.h"
 #include "SceneObj.h"
 using namespace std;
 class Ball:public SceneObj

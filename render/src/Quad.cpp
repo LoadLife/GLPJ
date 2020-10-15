@@ -1,6 +1,5 @@
 #include "Quad.h"
 
-
 Quad::Quad(shared_ptr<shader>& mshader, vector<vertex>& vertices, vector<GLuint>& indices,vector<string>& texturePathes)
 {
 	this->mshader = mshader;
@@ -11,7 +10,7 @@ Quad::Quad(shared_ptr<shader>& mshader, vector<vertex>& vertices, vector<GLuint>
 }
 
 void Quad::init() {
-	//ÅäÖÃ¶¥µãÊôÐÔ ÒÔ¼°Ë÷ÒýÊôÐÔ
+	//ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	GLuint VBO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -30,7 +29,7 @@ void Quad::init() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	//³õÊ¼»¯ÎÆÀí
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	vector<GLuint> textures(this->texturePathes.size());
 	this->textures = textures;
 	
