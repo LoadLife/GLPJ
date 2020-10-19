@@ -1,2 +1,1 @@
-目标：使用c++11写出一个opengl下的高效游戏渲染器
-
+confused computer graphics
