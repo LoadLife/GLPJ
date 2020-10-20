@@ -1,4 +1,5 @@
 include_directories(${Third_Part}/include)
+include_directories(${CMAKE_BINARY_DIR})
 include_directories(include)
 aux_source_directory(src SRC_FILE)
 message(STATUS ${SRC_FILE})

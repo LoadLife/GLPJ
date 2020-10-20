@@ -12,7 +12,7 @@ SkyBox::SkyBox(shared_ptr<shader> shader)
 
 void SkyBox::init() {
 
-	//��ʼ����������ͼ
+	//锟斤拷始锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷图
 	vector<string> imgPathes = {
 		"../../../resources/skybox/emerald_rt.jpg",
 		"../../../resources/skybox/emerald_lf.jpg",
@@ -42,7 +42,7 @@ void SkyBox::init() {
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
 	}
-	//������
+	//锟斤拷锟斤拷锟斤拷
 	vector<float> vertices = {
 		-1.0f,  1.0f, -1.0f,
 		-1.0f, -1.0f, -1.0f,
