@@ -11,7 +11,7 @@ class  shader
 public:
 	GLuint Program;
 	//构造shader
-	shader(const char* vertexPath, const char* fragmentPath);
+	shader(const std::string vertexPath, const std::string fragmentPath);
 
 
 	//使用shader

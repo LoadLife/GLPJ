@@ -1,6 +1,6 @@
 #include "shader.h"
 using namespace std;
-shader::shader(const char* vertexPath, const char* fragmentPath) {
+shader::shader(const string vertexPath, string fragmentPath) {
 
 	//文件路径中获取顶点/片段着色器	
 	string vertexCode, fragmentCode;
