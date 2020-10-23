@@ -46,8 +46,8 @@ int main() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	const GLubyte* firm = glGetString(GL_VENDOR);
 	const GLubyte* identifier = glGetString(GL_RENDERER);
-	printf("Realize By %s\n", firm);
-	printf("Run On %s\n", identifier);
+	cout << "Realize By " << firm << endl;
+	cout << "Run On " << identifier << endl;
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -132,18 +132,17 @@ int main() {
 	glBufferData(GL_UNIFORM_BUFFER, 128, nullptr, GL_STATIC_DRAW);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo);
-	shared_ptr<shader> sShader = make_shared<shader>(shader(string(resource_path) + "/sr_v_shader.txt", string(resource_path) + "/sr_f_shader.txt"));
-	shared_ptr<shader> qShader = make_shared<shader>(shader(string(resource_path) + "/q_v_shader.txt", string(resource_path) + "/q_f_shader.txt"));
+	//create all shader
+	shared_ptr<shader> sShader(new shader(string(resource_path) + "/sr_v_shader.txt", string(resource_path) + "/sr_f_shader.txt"));
+	shared_ptr<shader> qShader(new shader(string(resource_path) + "/q_v_shader.txt", string(resource_path) + "/q_f_shader.txt"));
 	unique_ptr<shader> bShader(new shader(string(resource_path) + "/b_v_shader.txt", string(resource_path) + "/b_f_shader.txt"));
+	unique_ptr<shader> textShader(new shader(string(resource_path) + "/t_v_shader.txt", string(resource_path) + "/t_f_shader.txt"));
 
 	vector<string> texturePathes = { string(resource_path) + "/floor.jpg" };
 	shared_ptr<Quad> quad(new Quad(qShader, box, indices, texturePathes));
 	shared_ptr<terrain> terrain(new terrain(qShader, string(resource_path) + "/little.jpg", string(resource_path) + "/toby.jpg"));
 	shared_ptr<Ball> mball(new Ball(bShader));
-	/*
-	shared_ptr<shader> textShader = make_shared<shader>(shader("../src/t_v_shader.txt", "../src/t_f_shader.txt"));
-	shared_ptr<TextRender>textRender = make_shared<TextRender>(TextRender(textShader));
-	*/
+	shared_ptr<TextRender>textRender(new TextRender(textShader));
 	unique_ptr<shader> skyShader(new shader(string(resource_path) + "/sky_v_shader.txt", string(resource_path) + "/sky_f_shader.txt"));
 	shared_ptr<SkyBox> skyBox(new SkyBox(skyShader));
 
@@ -174,13 +173,13 @@ int main() {
 		terrain->draw(model3, cam.pos);
 		quad->draw(model,cam.pos);
 		skyBox->draw();
-		/*	
+		
 		string x = to_string(cam.pos.x).substr(0, 4);
 		string y = to_string(cam.pos.y).substr(0, 4);
 		string z = to_string(cam.pos.z).substr(0, 4);
 		string pos ="loc : "+ x + " " + y + " " + z;
 		textRender->draw(pos, 620.0f, 550.0f, 0.3f, glm::vec3(0.5, 0.8f, 0.2f));
-		*/
+		
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, intermediateFBO); 
 		glBlitFramebuffer(0, 0, 800, 600, 0, 0, 800, 600, GL_COLOR_BUFFER_BIT, GL_NEAREST);

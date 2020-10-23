@@ -1,4 +1,4 @@
-/*
+
 #pragma once
 #include "ft2build.h"
 #include FT_FREETYPE_H
@@ -14,14 +14,14 @@ using namespace std;
 class TextRender:public SceneObj
 {
 public:
-	TextRender(shared_ptr<shader> shader);
+	TextRender(unique_ptr<shader>& shader);
 	~TextRender();
 	void draw(string& text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color) const;
 private:
 	void init() override;
 	GLuint VAO;
 	GLuint VBO;
-	shared_ptr<shader> mshader;
+	unique_ptr<shader> mshader;
 	glm::mat4 projection;
 };
-*/
+

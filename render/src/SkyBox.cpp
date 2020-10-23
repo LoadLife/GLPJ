@@ -1,15 +1,14 @@
 #include "SkyBox.h"
-
+#include "config.h"
 void SkyBox::init() {
-
-	//锟斤拷始锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷图
+	
 	vector<string> imgPathes = {
-		"../../../resources/skybox/emerald_rt.jpg",
-		"../../../resources/skybox/emerald_lf.jpg",
-		"../../../resources/skybox/emerald_up.jpg",
-		"../../../resources/skybox/emerald_dn.jpg",
-		"../../../resources/skybox/emerald_ft.jpg",
-		"../../../resources/skybox/emerald_bk.jpg"
+		string(resource_path) + "/skybox/emerald_rt.jpg",
+		string(resource_path) + "/skybox/emerald_lf.jpg",
+		string(resource_path) + "/skybox/emerald_up.jpg",
+		string(resource_path) + "/skybox/emerald_dn.jpg",
+		string(resource_path) + "/skybox/emerald_ft.jpg",
+		string(resource_path) + "/skybox/emerald_bk.jpg"
 	};
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
@@ -32,7 +31,6 @@ void SkyBox::init() {
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
 	}
-	//锟斤拷锟斤拷锟斤拷
 	vector<float> vertices = {
 		-1.0f,  1.0f, -1.0f,
 		-1.0f, -1.0f, -1.0f,

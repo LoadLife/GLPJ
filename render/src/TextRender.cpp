@@ -1,9 +1,10 @@
-/*#include "TextRender.h"
+#include "TextRender.h"
+#include "config.h"
 extern map<GLchar, Character> Characters;
 
-TextRender::TextRender(shared_ptr<shader> shader)
+TextRender::TextRender(unique_ptr<shader>& shader)
 {
-	this->mshader = shader;
+	this->mshader = std::move(shader);
 	init();
 }
 
@@ -19,10 +20,10 @@ void TextRender::draw(string& text, GLfloat x, GLfloat y, GLfloat scale,glm::vec
 	for (c = text.begin(); c != text.end(); c++) {
 		Character ch = Characters[*c];
 
-		GLfloat xpos = x + ch.Bearing.x*scale;
+		GLfloat xpos = x + ch.Bearing.x * scale;
 		GLfloat ypos = y - (ch.Size.y - ch.Bearing.y);
-		GLfloat w = ch.Size.x*scale;
-		GLfloat h = ch.Size.y*scale;
+		GLfloat w = ch.Size.x * scale;
+		GLfloat h = ch.Size.y * scale;
 		GLfloat vertices[6][4] = {
 			{ xpos  ,ypos + h,0.0f,0.0f },
 			{ xpos  ,ypos  ,0.0f,1.0f },
@@ -54,7 +55,8 @@ void TextRender::init() {
 		cout << "ERROR::FREETYPE:Could not init FreeType Library" << endl;
 	}
 	FT_Face face;
-	if (FT_New_Face(ft, "../src/arial.ttf", 0, &face)) {
+	string face_path = string(resource_path) + "/arial.ttf";
+	if (FT_New_Face(ft, face_path.c_str(), 0, &face)) {
 		cout << "ERROR::FREETYPE:Fail to load front" << endl;
 	}
 	FT_Set_Pixel_Sizes(face, 0, 48);
@@ -103,4 +105,3 @@ void TextRender::init() {
 TextRender::~TextRender()
 {
 }
-*/
