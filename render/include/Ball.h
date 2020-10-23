@@ -12,12 +12,16 @@ using namespace std;
 class Ball:public SceneObj
 {
 public:
-	Ball(shared_ptr<shader> shader);
-	~Ball();
+	Ball(unique_ptr<shader>& shader) : 
+		mshader(std::move(shader))
+	{
+		init();
+	}
+	~Ball() {}
 	void draw(glm::mat4& model) const;
 private: 
 	GLuint VAO;
-	shared_ptr<shader> mshader;
+	unique_ptr<shader> mshader;
 	vector<vertex> vertices;
 	void init() override;
 };

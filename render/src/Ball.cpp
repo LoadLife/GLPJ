@@ -1,12 +1,5 @@
 #include "Ball.h"
 
-
-
-Ball::Ball(shared_ptr<shader> mshader)
-{
-	this->mshader = mshader;
-	init();
-}
 void Ball::init() {
 	//初始化球顶点坐标
 	for (float i = 90.0f; i >= -80; i -= 10.0f) {
@@ -56,7 +49,4 @@ void Ball::draw(glm::mat4& model) const {
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
 	glBindVertexArray(0);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-}
-Ball::~Ball()
-{
 }

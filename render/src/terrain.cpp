@@ -1,20 +1,9 @@
 #include "terrain.h"
 
-
-
-terrain::terrain(const char* MapPath, const char* TexturePath,shared_ptr<shader>& shader)
-{
-	mshader = shader;
-	init(MapPath, TexturePath);
-		
-}
-
-
-
-void terrain::init(const char* MapPath, const char* TexturePath) {
+void terrain::init(const string MapPath, const string TexturePath) {
 
 	int width, height, nrChannels;
-	unsigned char* mData = stbi_load(MapPath, &width, &height, &nrChannels, 0);
+	unsigned char* mData = stbi_load(MapPath.c_str(), &width, &height, &nrChannels, 0);
 	for (int i = 0; i < height - 1; i++) {
 		for (int j = 0; j < width; j++) {
 			vertex v1, v2;
@@ -61,7 +50,7 @@ void terrain::init(const char* MapPath, const char* TexturePath) {
 	//��ʼ������
 	stbi_set_flip_vertically_on_load(true);
 	glGenTextures(1, &this->texture);
-    mData = stbi_load(TexturePath, &width, &height, &nrChannels, 0);
+    mData = stbi_load(TexturePath.c_str(), &width, &height, &nrChannels, 0);
 	glBindTexture(GL_TEXTURE_2D, this->texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

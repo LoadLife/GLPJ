@@ -12,11 +12,15 @@ using namespace std;
 class SkyBox:SceneObj
 {
 public:
-	SkyBox(shared_ptr<shader> shader);
+	SkyBox(unique_ptr<shader>& shader) : 
+		mshader(std::move(shader))
+	{
+		init();
+	}
 	~SkyBox();
 	void draw();
 private:
-	shared_ptr<shader> mshader;
+	unique_ptr<shader> mshader;
 	GLuint texture;
 	GLuint VAO;
 	void init() override;

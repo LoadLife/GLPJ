@@ -1,15 +1,5 @@
 #include "SkyBox.h"
 
-
-
-SkyBox::SkyBox(shared_ptr<shader> shader)
-{
-	this->mshader = shader;
-	init();
-}
-
-
-
 void SkyBox::init() {
 
 	//锟斤拷始锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷图

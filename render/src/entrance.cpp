@@ -79,7 +79,7 @@ int main() {
 	GLuint attachments[2] = { GL_COLOR_ATTACHMENT0,GL_COLOR_ATTACHMENT1 };
 	glDrawBuffers(2, attachments);
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+		cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << endl;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
 	GLuint intermediateFBO;
@@ -132,19 +132,21 @@ int main() {
 	glBufferData(GL_UNIFORM_BUFFER, 128, nullptr, GL_STATIC_DRAW);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo);
-	shared_ptr<shader> sShader = make_shared<shader>(shader(std::string(resource_path) + "/sr_v_shader.txt", std::string(resource_path) + "/sr_f_shader.txt"));
-	shared_ptr<shader> qShader = make_shared<shader>(shader(std::string(resource_path) + "/q_v_shader.txt", std::string(resource_path) + "/q_f_shader.txt"));
-	vector<string> texturePathes = { std::string(resource_path) + "/floor.jpg" };
+	shared_ptr<shader> sShader = make_shared<shader>(shader(string(resource_path) + "/sr_v_shader.txt", string(resource_path) + "/sr_f_shader.txt"));
+	shared_ptr<shader> qShader = make_shared<shader>(shader(string(resource_path) + "/q_v_shader.txt", string(resource_path) + "/q_f_shader.txt"));
+	unique_ptr<shader> bShader(new shader(string(resource_path) + "/b_v_shader.txt", string(resource_path) + "/b_f_shader.txt"));
+
+	vector<string> texturePathes = { string(resource_path) + "/floor.jpg" };
 	shared_ptr<Quad> quad(new Quad(qShader, box, indices, texturePathes));
-	shared_ptr<shader> bShader = make_shared<shader>(shader(std::string(resource_path) + "/b_v_shader.txt", std::string(resource_path) + "/b_f_shader.txt"));
+	shared_ptr<terrain> terrain(new terrain(qShader, string(resource_path) + "/little.jpg", string(resource_path) + "/toby.jpg"));
 	shared_ptr<Ball> mball(new Ball(bShader));
-	shared_ptr<terrain> terrain(new terrain("../../../resources/little.jpg", "../../../resources/toby.jpg", qShader));
 	/*
 	shared_ptr<shader> textShader = make_shared<shader>(shader("../src/t_v_shader.txt", "../src/t_f_shader.txt"));
 	shared_ptr<TextRender>textRender = make_shared<TextRender>(TextRender(textShader));
 	*/
-	shared_ptr<shader> skyShader = make_shared<shader>(shader(std::string(resource_path) + "/sky_v_shader.txt", std::string(resource_path) + "/sky_f_shader.txt"));
-	shared_ptr<SkyBox> skyBox = make_shared<SkyBox>(SkyBox(skyShader));
+	unique_ptr<shader> skyShader(new shader(string(resource_path) + "/sky_v_shader.txt", string(resource_path) + "/sky_f_shader.txt"));
+	shared_ptr<SkyBox> skyBox(new SkyBox(skyShader));
+
 	glm::mat4 model;
 	model = glm::translate(model, glm::vec3(0.0f, -0.3f, 0.0f));
 	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));

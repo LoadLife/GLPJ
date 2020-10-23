@@ -13,12 +13,17 @@ using namespace std;
 class terrain
 {
 public:
-	terrain(const char* MapPath,const char* TexturePath,shared_ptr<shader>& shader);
+	terrain(shared_ptr<shader>& shader, const string MapPath,const string TexturePath) :
+			mshader(shader)
+	{
+		init(MapPath, TexturePath);
+	}
+
 	void draw(glm::mat4& model, glm::vec3& camPos) const;
 	~terrain();
 	
 private:
-	void init(const char* MapPath, const char* TexturePath);
+	void init(const string MapPath, const string TexturePath);
 	vector<vertex> vertices;
 	GLuint VAO;
 	GLuint texture;
