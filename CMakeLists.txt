@@ -16,11 +16,12 @@ set(Third_Part ${CMAKE_SOURCE_DIR}/third_part)
 set(Resource_Path "${PROJECT_SOURCE_DIR}/resources")
 message(STATUS "third part dir locates in ${Third_Part}")
 message(STATUS "resource path dir locates in ${Resource_Path}")
-
+#configure file
 configure_file(
         "${PROJECT_SOURCE_DIR}/config.h.in"
         "${PROJECT_BINARY_DIR}/config.h"
         )
+#install dll
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     if("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
         install(FILES "${Third_Part}/dll/freetype.dll" DESTINATION "${PROJECT_BINARY_DIR}/render/Release")
@@ -29,7 +30,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     endif()
 endif()
 #Todo : On GNU
-
 message(STATUS "-------------------------configure msg done-----------------------------")
 message("")
+
 add_subdirectory(render)
