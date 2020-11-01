@@ -51,13 +51,13 @@ int main() {
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	vertex vertex1 = { glm::vec3(-0.2f, 0.2f, 0.0f),glm::vec3(0.0f,0.0f,1.0f),glm::vec2(0.0f,1.0f) };
-	vertex vertex2 = { glm::vec3( 0.2f, 0.2f, 0.0f),glm::vec3(0.0f,0.0f,1.0f),glm::vec2(1.0f,1.0f) };
-	vertex vertex3 = { glm::vec3( 0.2f,-0.2f, 0.0f),glm::vec3(0.0f,0.0f,1.0f),glm::vec2(1.0f,0.0f) };
-	vertex vertex4 = { glm::vec3(-0.2f,-0.2f, 0.0f),glm::vec3(0.0f,0.0f,1.0f),glm::vec2(0.0f,0.0f) };
-	vector<vertex> box{ vertex1,vertex2,vertex3,vertex4 };
-	vector<GLuint> indices = { 0,1,2,
-							   2,3,0 };
+	vertex vertex1 = { glm::vec3(-0.2f, 0.2f, 0.0f),glm::vec3(0.0f, 0.0f, 1.0f),glm::vec2(0.0f, 1.0f) };
+	vertex vertex2 = { glm::vec3( 0.2f, 0.2f, 0.0f),glm::vec3(0.0f, 0.0f, 1.0f),glm::vec2(1.0f, 1.0f) };
+	vertex vertex3 = { glm::vec3( 0.2f,-0.2f, 0.0f),glm::vec3(0.0f, 0.0f, 1.0f),glm::vec2(1.0f, 0.0f) };
+	vertex vertex4 = { glm::vec3(-0.2f,-0.2f, 0.0f),glm::vec3(0.0f, 0.0f, 1.0f),glm::vec2(0.0f, 0.0f) };
+	vector<vertex> box{ vertex1, vertex2, vertex3, vertex4 };
+	vector<GLuint> indices = { 0, 1, 2,
+							               2, 3, 0 };
 	GLuint framebuffer;
 	glGenFramebuffers(1, &framebuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
