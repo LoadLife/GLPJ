@@ -9,7 +9,7 @@
 class  shader
 {
 public:
-	GLuint Program;
+	GLuint program_;
 	shader(const std::string vertexPath, const std::string fragmentPath);
 	void use();
 	void setBool(const std::string &name, bool value)const;

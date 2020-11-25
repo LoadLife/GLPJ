@@ -19,9 +19,9 @@ public:
 	void draw(string& text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color) const;
 private:
 	void init() override;
-	GLuint VAO;
-	GLuint VBO;
-	unique_ptr<shader> mshader;
-	glm::mat4 projection;
+	GLuint VAO_;
+	GLuint VBO_;
+	unique_ptr<shader> shader_;
+	glm::mat4 projection_;
 };
 

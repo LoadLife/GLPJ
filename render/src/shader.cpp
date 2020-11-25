@@ -48,13 +48,13 @@ shader::shader(const string vertexPath, string fragmentPath) {
 		cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED \n" << infoLog << endl;
 
 	}
-	this->Program = glCreateProgram();
-	glAttachShader(this->Program, vertex);
-	glAttachShader(this->Program, fragment);
-	glLinkProgram(this->Program);
-	glGetProgramiv(this->Program, GL_LINK_STATUS, &success);
+	this->program_ = glCreateProgram();
+	glAttachShader(this->program_, vertex);
+	glAttachShader(this->program_, fragment);
+	glLinkProgram(this->program_);
+	glGetProgramiv(this->program_, GL_LINK_STATUS, &success);
 	if (!success) {
-		glGetProgramInfoLog(this->Program, 512, NULL, infoLog);
+		glGetProgramInfoLog(this->program_, 512, NULL, infoLog);
 		cout << "ERROR::SHADER::PROGRAM::LINK_FAILED \n" << infoLog << endl;
 	}
 	glDeleteShader(vertex);
@@ -66,30 +66,30 @@ shader::~shader() {
 
 }
 void shader::use() {
-	glUseProgram(this->Program);
+	glUseProgram(this->program_);
 }
 
 void shader::setBool(const std::string &name, bool value) const
 {
-	glUniform1i(glGetUniformLocation(Program, name.c_str()), (int)value);
+	glUniform1i(glGetUniformLocation(program_, name.c_str()), (int)value);
 }
 
 void shader::setInt(const std::string &name, int value) const
 {
-	glUniform1i(glGetUniformLocation(Program, name.c_str()), value);
+	glUniform1i(glGetUniformLocation(program_, name.c_str()), value);
 }
 
 void shader::setFloat(const std::string &name, float value) const
 {
-	glUniform1f(glGetUniformLocation(Program, name.c_str()), value);
+	glUniform1f(glGetUniformLocation(program_, name.c_str()), value);
 }
 
 void shader::setMat4(const std::string &name, const glm::mat4 &mat) const
 {
-	glUniformMatrix4fv(glGetUniformLocation(Program, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(program_, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }
 
 void shader::setVec3(const std::string &name, float x, float y, float z) const
 {
-	glUniform3f(glGetUniformLocation(Program, name.c_str()), x, y, z);
+	glUniform3f(glGetUniformLocation(program_, name.c_str()), x, y, z);
 }

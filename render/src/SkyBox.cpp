@@ -10,8 +10,8 @@ void SkyBox::init() {
 		string(resource_path) + "/skybox/emerald_ft.jpg",
 		string(resource_path) + "/skybox/emerald_bk.jpg"
 	};
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
+	glGenTextures(1, &texture_);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, texture_);
 	int width, height, nrChannels;
 	
 	for (GLuint i = 0; i != 6; i++) {
@@ -76,9 +76,9 @@ void SkyBox::init() {
 	};
 
 	GLuint VBO;
-	glGenVertexArrays(1, &VAO);
+	glGenVertexArrays(1, &VAO_);
 	glGenBuffers(1, &VBO);
-	glBindVertexArray(VAO);
+	glBindVertexArray(VAO_);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), &vertices[0], GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat),(void*)0);
@@ -86,9 +86,9 @@ void SkyBox::init() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	mshader->use();
-	GLuint matricesBlockIndex = glGetUniformBlockIndex(mshader->Program, "matrices");
-	glUniformBlockBinding(mshader->Program, matricesBlockIndex, 0);
+	shader_->use();
+	GLuint matricesBlockIndex = glGetUniformBlockIndex(shader_->program_, "matrices");
+	glUniformBlockBinding(shader_->program_, matricesBlockIndex, 0);
 
 
 }
@@ -96,10 +96,10 @@ void SkyBox::init() {
 
 
 void SkyBox::draw() {
-    mshader->use();
+    shader_->use();
 	glDepthFunc(GL_LEQUAL);
-	glBindVertexArray(VAO);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
+	glBindVertexArray(VAO_);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, texture_);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
 	glDepthFunc(GL_LESS);

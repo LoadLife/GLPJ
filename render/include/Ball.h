@@ -13,7 +13,7 @@ class Ball:public SceneObj
 {
 public:
 	Ball(unique_ptr<shader>& shader) : 
-		mshader(std::move(shader))
+		shader_(std::move(shader))
 	{
 		init();
 	}
@@ -21,8 +21,8 @@ public:
 	void draw(glm::mat4& model) const;
 private: 
 	GLuint VAO;
-	unique_ptr<shader> mshader;
-	vector<vertex> vertices;
+	unique_ptr<shader> shader_;
+	vector<vertex> vertices_;
 	void init() override;
 };
 

@@ -10,7 +10,6 @@ message(STATUS "Operate System : ${CMAKE_SYSTEM}")
 message(STATUS "CXX Compiler : ${CMAKE_CXX_COMPILER_ID}")
 message(STATUS "build type:" ${CMAKE_BUILD_TYPE})
 
-
 #configure third part lib && include dir
 set(Third_Part ${CMAKE_SOURCE_DIR}/third_part)
 set(Resource_Path "${PROJECT_SOURCE_DIR}/resources")

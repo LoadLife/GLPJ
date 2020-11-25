@@ -4,18 +4,18 @@ extern map<GLchar, Character> Characters;
 
 TextRender::TextRender(unique_ptr<shader>& shader)
 {
-	this->mshader = std::move(shader);
+	shader_ = std::move(shader);
 	init();
 }
 
 void TextRender::draw(string& text, GLfloat x, GLfloat y, GLfloat scale,glm::vec3 color) const{
-	mshader->use();
-	mshader->setVec3("textColor", color.x, color.y, color.z);
-	mshader->setMat4("projectionM", projection);
+	shader_->use();
+	shader_->setVec3("textColor", color.x, color.y, color.z);
+	shader_->setMat4("projection_M", projection_);
 	glActiveTexture(GL_TEXTURE0);
-	mshader->setInt("text", 0);
+	shader_->setInt("text", 0);
 
-	glBindVertexArray(VAO);
+	glBindVertexArray(VAO_);
 	string::const_iterator c;
 	for (c = text.begin(); c != text.end(); c++) {
 		Character ch = Characters[*c];
@@ -34,7 +34,7 @@ void TextRender::draw(string& text, GLfloat x, GLfloat y, GLfloat scale,glm::vec
 		};
 
 		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO_);
 		GLvoid* ptr = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 		memcpy(ptr, vertices, sizeof(vertices));
 		glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -87,17 +87,17 @@ void TextRender::init() {
 	FT_Done_Face(face);
 	FT_Done_FreeType(ft);
 
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER,VBO);
+	glGenVertexArrays(1, &VAO_);
+	glGenBuffers(1, &VBO_);
+	glBindVertexArray(VAO_);
+	glBindBuffer(GL_ARRAY_BUFFER,VBO_);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, nullptr, GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (void*)0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	this->projection = glm::ortho(0.0f, static_cast<GLfloat>(800), 0.0f, static_cast<GLfloat>(600));
+	projection_ = glm::ortho(0.0f, static_cast<GLfloat>(800), 0.0f, static_cast<GLfloat>(600));
 }
 
 

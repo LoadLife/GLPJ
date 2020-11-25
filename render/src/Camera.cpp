@@ -2,41 +2,45 @@
 
 Camera::Camera(glm::vec3& pos, glm::vec3& target)
 {
-	this->pos = pos;
-	this->up = glm::vec3(0.0f, 1.0f, 0.0f);
-	this->yaw = -90.0f;
-	this->pitch = 0.0f;
-	this->front = glm::vec3(cos(glm::radians(pitch)) * cos(glm::radians(yaw)), sin(glm::radians(pitch)), cos(glm::radians(pitch)) * sin(glm::radians(yaw)));
+	pos_ = pos;
+	up_ = glm::vec3(0.0f, 1.0f, 0.0f);
+	yaw_ = -90.0f;
+	pitch_ = 0.0f;
+	front_ = glm::vec3(cos(glm::radians(pitch_)) * cos(glm::radians(yaw_)), 
+            sin(glm::radians(pitch_)), cos(glm::radians(pitch_)) * sin(glm::radians(yaw_)));
 }
 
 void Camera::updatePos(Direction dir) {
 
 	float speed = 0.0015f * 30.0f;
 	if (dir == FRONT)
-		this->pos += speed * this->front;
+		pos_ += speed * front_;
 	else if (dir == BACK)
-		this->pos -= speed * this->front;
+		pos_ -= speed * front_;
 	else if (dir == LEFT)
-		this->pos -= speed * glm::normalize(glm::cross(this->front, this->up));
+		pos_ -= speed * glm::normalize(glm::cross(front_, up_));
 	else if (dir == RIGHT)
-		this->pos += speed * glm::normalize(glm::cross(this->front, this->up));
+		pos_ += speed * glm::normalize(glm::cross(front_, up_));
 		
 }
+
 void Camera::updateMouse(float xoffset, float yoffset) {
 	float MouseSensitivity = 0.016f;
-	yaw += xoffset * MouseSensitivity;
-	pitch += yoffset * MouseSensitivity;
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	if (pitch < -89.0f)
-		pitch = -89.0f;
-	this->front = glm::vec3(cos(glm::radians(pitch)) * cos(glm::radians(yaw)), sin(glm::radians(pitch)), cos(glm::radians(pitch)) * sin(glm::radians(yaw)));
+	yaw_ += xoffset * MouseSensitivity;
+	pitch_ += yoffset * MouseSensitivity;
+	if (pitch_ > 89.0f)
+		pitch_ = 89.0f;
+	if (pitch_ < -89.0f)
+		pitch_ = -89.0f;
+	front_ = glm::vec3(cos(glm::radians(pitch_)) * cos(glm::radians(yaw_)), 
+            sin(glm::radians(pitch_)), cos(glm::radians(pitch_)) * sin(glm::radians(yaw_)));
 }
 
 glm::mat4 Camera::getLookAt() {
-	glm::mat4 view = glm::lookAt(pos, pos + front, up);
+	glm::mat4 view = glm::lookAt(pos_, pos_ + front_, up_);
 	return view;
 }
+
 Camera::~Camera()
 {
 }

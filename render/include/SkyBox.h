@@ -13,16 +13,16 @@ class SkyBox:SceneObj
 {
 public:
 	SkyBox(unique_ptr<shader>& shader) : 
-		mshader(std::move(shader))
+		shader_(std::move(shader))
 	{
 		init();
 	}
 	~SkyBox();
 	void draw();
 private:
-	unique_ptr<shader> mshader;
-	GLuint texture;
-	GLuint VAO;
+	unique_ptr<shader> shader_;
+	GLuint texture_;
+	GLuint VAO_;
 	void init() override;
 };
 
