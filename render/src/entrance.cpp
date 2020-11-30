@@ -67,7 +67,6 @@ int main()
     glGenTextures(2, texture);
     for (GLuint i = 0; i < 2; i++)
     {
-
         glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, texture[i]);
         glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGB16F, 800, 600, GL_TRUE);
         glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);

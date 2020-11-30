@@ -47,7 +47,6 @@ void terrain::init(const string MapPath, const string TexturePath) {
 	glBindVertexArray(0);
 	
 	
-	//��ʼ������
 	stbi_set_flip_vertically_on_load(true);
 	glGenTextures(1, &texture_);
     mData = stbi_load(TexturePath.c_str(), &width, &height, &nrChannels, 0);
